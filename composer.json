@@ -1,0 +1,64 @@
+{
+    "version":"1.0.0",
+    "name": "hith/laravel-codeable",
+    "description": "A lightweight Eloquent trait for generating, storing, expiring, and managing numeric codes (OTPs, tokens) on any model.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "hith-hj",
+            "email": "hjhaithem@gmail.com"
+        }
+    ],
+    "keywords": ["laravel", "eloquent", "codes", "otp", "tokens"],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^12.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.25",
+        "orchestra/testbench": "^10.6",
+        "pestphp/pest": "^3.8"
+    },
+    "scripts": {
+        "lint": "pint",
+        "test": "pest",
+        "test:p": "pest -p",
+        "check": [
+            "@lint",
+            "@test:p"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "Codeable\\": "src/"
+        },
+        "files":[
+            "src\\Helpers\\helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Codeable\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Codeable\\Providers\\CodeableServiceProvider"
+            ],
+            "aliases": {
+                "Coder": "Codeable\\Facades\\Coder"
+            }
+        }
+    },
+    "prefer-stable": true
+}
