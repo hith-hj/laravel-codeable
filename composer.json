@@ -1,5 +1,4 @@
 {
-    "version":"1.0.0",
     "name": "hith/laravel-codeable",
     "description": "A lightweight Eloquent trait for generating, storing, expiring, and managing numeric codes (OTPs, tokens) on any model.",
     "type": "library",
