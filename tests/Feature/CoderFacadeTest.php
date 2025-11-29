@@ -12,8 +12,8 @@ it('it can retrive code by type', function () {
     $code = Coder::createCode('test');
 
     expect(Coder::codes()->count())->toBe(1)
-    ->and(Coder::code($code->type))->not->toBeNull()
-    ->and(Coder::code($code->type)->type)->toBe($code->type);
+    ->and(Coder::code($code->code))->not->toBeNull()
+    ->and(Coder::code($code->code)->type)->toBe($code->type);
 });
 
 it('it can retrive code by id', function () {

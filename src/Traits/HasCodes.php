@@ -26,56 +26,53 @@ trait HasCodes
 
     /**
      * Get code by id or type, or throw if not found.
-     *
-     * @throws RuntimeException
      */
-    public function code(string|int $key): Code
+    public function code(string|int $value): Code
     {
-        if (is_numeric($key)) {
-            return $this->codeById((int) $key);
+        if (is_numeric($value)) {
+            return $this->codeByCode($value);
         }
 
-        return $this->codeByType((string) $key);
+        return $this->codeByType((string) $value);
+    }
+
+    /**
+     * Get code by type or throw if not found.
+     */
+    public function codeByType(string $type): ?Code
+    {
+        if ($this instanceof Model) {
+            $code = $this->codes()->where('type', $type)->first();
+
+            Truthy($code === null, "Code[{$type}] not found.");
+
+            return $code;
+        }
+        Truthy(true, 'codeByType is invalid on global scope');
+
+        return null;
+    }
+
+    /**
+     * Get code by code or throw if not found.
+     */
+    public function codeByCode(string|int $value): Code
+    {
+        $code = $this->codes()->where('code', $value)->first();
+
+        Truthy($code === null, "Code[{$value}] not found.");
+
+        return $code;
     }
 
     /**
      * Get code by id or throw if not found.
-     *
-     * @throws RuntimeException
      */
     public function codeById(int $id): Code
     {
         $code = $this->codes()->find($id);
 
         Truthy($code === null, "Code[{$id}] not found.");
-
-        return $code;
-    }
-
-    /**
-     * Get code by type or throw if not found.
-     *
-     * @throws RuntimeException
-     */
-    public function codeByType(string $type): Code
-    {
-        $code = $this->codes()->where('type', $type)->first();
-
-        Truthy($code === null, "Code[{$type}] not found.");
-
-        return $code;
-    }
-
-    /**
-     * Get code by code or throw if not found.
-     *
-     * @throws RuntimeException
-     */
-    public function codeByCode(string $value): Code
-    {
-        $code = $this->codes()->where('code', $value)->first();
-
-        Truthy($code === null, "Code[{$value}] not found.");
 
         return $code;
     }
@@ -131,7 +128,7 @@ trait HasCodes
      *
      * @throws RuntimeException If a unique code cannot be generated within max attempts.
      */
-    private function generate(string $type, int $length)
+    private function generate(string $type, int $length): ?int
     {
         $maxAttempts = (int) $this->getConfig('max_attempts', 5);
 
@@ -147,6 +144,8 @@ trait HasCodes
             }
         }
         Truthy(true, "Max attempts ({$maxAttempts}) reached.");
+
+        return null;
     }
 
     /**
@@ -188,7 +187,7 @@ trait HasCodes
     /**
      * Parse and Validate pattern like "-15:m" or "10:h".
      */
-    private function parseExpireAt(string $input)
+    private function parseExpireAt(string $input): array
     {
         Truthy(
             ! preg_match('/^([+-]?\d+):(s|m|h|d)$/', trim($input), $matches),
@@ -217,7 +216,7 @@ trait HasCodes
         return config("codeable.{$key}", $default);
     }
 
-    private function setQuery()
+    private function setQuery(): MorphMany|Builder
     {
         return $this->codes() instanceof Builder ?
             $this->codes()->withAttributes([

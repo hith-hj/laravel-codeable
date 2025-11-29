@@ -27,6 +27,10 @@ if (! function_exists('Falsy')) {
     /**
      * Throw an exception if the condition is false.
      *
+     * @param  bool  $condition  The condition to evaluate.
+     * @param  string  $message  The exception message if condition is true.
+     * @param  mixed  ...$parameters  Optional parameters passed to the Exception constructor.
+     * @return bool Returns the evaluated condition (always false if exception is thrown).
      *
      * @throws Exception
      */

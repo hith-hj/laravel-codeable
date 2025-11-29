@@ -25,8 +25,8 @@ it('it can retrive code by type', function () {
     $code = $this->codable->createCode('test');
 
     expect($this->codable->codes()->count())->toBe(1)
-    ->and($this->codable->code($code->type))->not->toBeNull()
-    ->and($this->codable->code($code->type)->type)->toBe($code->type);
+    ->and($this->codable->code($code->code))->not->toBeNull()
+    ->and($this->codable->code($code->code)->type)->toBe($code->type);
 });
 
 it('it can retrive code by id', function () {

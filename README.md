@@ -38,7 +38,7 @@ php artisan vendor:publish --tag=codeable-files
 **3**: Finally, use the package:
 
 * By adding the trait directly to your models.
-* By using the Codeable class to create/delete codes.
+* By using the Codeable class.
 * By using the Coder Facade.
 
 ### Usage of HasCodes Trait:
@@ -91,6 +91,35 @@ if($code->isExpired()){
 }
 
 ```
+
+### Useful Methods
+These methods let you easily retrieve codes.
+They can be used with the Model trait, the Codeable class, or the Coder Facade.
+
+```php
+// Get a code by type or by code value
+$user->code('code_type');
+$user->code(12345);
+
+// Or use explicit methods
+$user->codeByType('code_type');
+$user->codeByCode(12345);
+
+// Or fetch it by ID
+$user->codeById($code->id);
+```
+
+
+## Codeable: Delete Expired Command
+This command removes all expired codes from the database.
+
+### Usage
+Run the following in your terminal:
+
+```bash
+php artisan codes:delete-expired
+```
+
 
 ## Codeable Configuration
 
